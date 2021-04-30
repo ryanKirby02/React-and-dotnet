@@ -26,8 +26,8 @@ const ActivityListItem = ({ activity }: Props) => {
       </Segment>
       <Segment>
           <span>
-              <Icon name='clock' /> {format( activity.date!, 'dd MMM yyyy h:mm aa')} 
-              <Icon name='marker' /> {activity.venue}
+              <Icon name='clock' color='teal' /> {format( activity.date!, 'dd MMM yyyy h:mm aa')} 
+              <Icon name='marker' color='teal' /> {activity.venue}
           </span>
       </Segment>
       <Segment secondary>
