@@ -1,44 +1,62 @@
 import { Link } from 'react-router-dom';
-import { Button, Icon, Item, Segment } from 'semantic-ui-react';
+import { Button, Icon, Item, Label, Segment } from 'semantic-ui-react';
 import { Activity } from '../../../app/models/activity';
 import { format } from 'date-fns';
+import ActivityAttendeesItemList from './ActivityAttendeesItemList';
+import { observer } from 'mobx-react-lite';
 
 interface Props {
   activity: Activity;
 }
 
 const ActivityListItem = ({ activity }: Props) => {
-
   return (
     <Segment.Group>
       <Segment>
+        {activity.isCancelled && (
+          <Label attached='top' color='red' content='This event is cancelled' style={{textAlign: 'center'}} />
+        )}
         <Item.Group>
           <Item>
-            <Item.Image size='tiny' circular src='/assets/user.png' />
+            <Item.Image style={{marginBottom: 3}} size='tiny' circular src='/assets/user.png' />
             <Item.Content>
               <Item.Header as={Link} to={`/activities/${activity.id}`}>
                 {activity.title}
               </Item.Header>
-              <Item.Description>Hosted by Bob</Item.Description>
+              <Item.Description>Hosted by {activity.host?.displayName}</Item.Description>
+              {activity.isHost && (
+                <Item.Description>
+                  <Label basic color='orange'>
+                    You Are Hosting This Event!
+                  </Label>
+                </Item.Description>
+              )}
+              {activity.isGoing && !activity.isHost && (
+                <Item.Description>
+                  <Label basic color='green'>
+                    You Are Going to This Event!
+                  </Label>
+                </Item.Description>
+              )}
             </Item.Content>
           </Item>
         </Item.Group>
       </Segment>
       <Segment>
-          <span>
-              <Icon name='clock' color='teal' /> {format( activity.date!, 'dd MMM yyyy h:mm aa')} 
-              <Icon name='marker' color='teal' /> {activity.venue}
-          </span>
+        <span>
+          <Icon name='clock' color='teal' /> {format(activity.date!, 'dd MMM yyyy h:mm aa')}
+          <Icon name='marker' color='teal' /> {activity.venue}
+        </span>
       </Segment>
       <Segment secondary>
-        Attendees go here
+        <ActivityAttendeesItemList attendees={activity.attendees!} />
       </Segment>
       <Segment clearing>
-          <span>{activity.description}</span>
-          <Button as={Link} to={`/activities/${activity.id}`} color='teal' floated='right' content='View' />
+        <span>{activity.description}</span>
+        <Button as={Link} to={`/activities/${activity.id}`} color='teal' floated='right' content='View' />
       </Segment>
     </Segment.Group>
   );
 };
 
-export default ActivityListItem;
+export default observer(ActivityListItem);

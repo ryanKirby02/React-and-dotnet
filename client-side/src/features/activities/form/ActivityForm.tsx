@@ -13,14 +13,13 @@ import FormTextArea from '../../../app/common/form/FormTextArea';
 import FormSelectInput from '../../../app/common/form/FormSelectInput';
 import { categoryOptions } from '../../../app/common/options/categoryOptions';
 import FormDateInput from '../../../app/common/form/FormDateInput';
-import { Activity } from '../../../app/models/activity';
+import { ActivityFormValues } from '../../../app/models/activity';
 
 const ActivityForm = () => {
   const { activityStore } = useStore();
   const {
     createActivity,
     updateActivity,
-    loading,
     loadActivity,
     loadingInitial,
   } = activityStore;
@@ -28,15 +27,7 @@ const ActivityForm = () => {
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
 
-  const [activity, setActivity] = useState<Activity>({
-    id: '',
-    title: '',
-    category: '',
-    description: '',
-    date: null,
-    city: '',
-    venue: '',
-  });
+  const [activity, setActivity] = useState<ActivityFormValues>(new ActivityFormValues());
 
   const validationSchema = Yup.object({
     title: Yup.string().required('The Activity Title Is Required'),
@@ -48,11 +39,11 @@ const ActivityForm = () => {
   });
 
   useEffect(() => {
-    if (id) loadActivity(id).then((activity) => setActivity(activity!));
+    if (id) loadActivity(id).then((activity) => setActivity(new ActivityFormValues(activity)));
   }, [id, loadActivity]);
 
-  const submitFormHandler = (activity: Activity) => {
-    if (activity.id.length === 0) {
+  const submitFormHandler = (activity: ActivityFormValues) => {
+    if (!activity.id) {
       let newActivity = {
         ...activity,
         id: uuid(),
@@ -93,7 +84,7 @@ const ActivityForm = () => {
               positive
               type='submit'
               content='Submit'
-              loading={loading}
+              loading={isSubmitting}
             />
             <Button
               as={Link}
