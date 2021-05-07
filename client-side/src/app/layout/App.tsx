@@ -17,6 +17,7 @@ import ActivityForm from '../../features/activities/form/ActivityForm';
 import ActivityDetails from '../../features/activities/details/ActivityDetails';
 import LoginForm from '../../features/users/LoginForm';
 import Loading from './Loading';
+import ProfilePage from '../../features/profiles/ProfilePage';
 
 //error pages
 import TestErrors from '../../features/errors/TestErrors';
@@ -24,6 +25,7 @@ import { ToastContainer } from 'react-toastify';
 import NotFound from '../../features/errors/NotFound';
 import ServerError from '../../features/errors/ServerError';
 import ModalContainer from '../common/modals/ModalContainer';
+
 
 
 
@@ -61,6 +63,7 @@ const App = () => {
                   path={['/createActivity', '/manage/:id']}
                   component={ActivityForm}
                 />
+                <Route path='/profile/:username' component={ProfilePage} />
                 <Route path='/errors' component={TestErrors} />
                 <Route path='/server-error' component={ServerError} />
                 <Route path='/login' component={LoginForm} />
