@@ -72,8 +72,8 @@ export default class ActivityStore {
     try {
       activity = await agent.Activities.details(id);
       this.setActivity(activity);
-      this.selectedActivity = activity;
       runInAction(() => {
+        this.selectedActivity = activity;
         this.loadingInitial = false;
       });
       return activity;
@@ -172,4 +172,8 @@ export default class ActivityStore {
       runInAction(() => (this.loading = false));
     }
   };
+
+  clearSelectedActivity = () => {
+    this.selectedActivity = undefined;
+  }
 }

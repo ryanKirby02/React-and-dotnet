@@ -8,12 +8,13 @@ interface Props {
 }
 
 const ProfileCard = ({ profile }: Props) => {
+
   return (
       <Card as={Link} to={`/profile/${profile.username}`}>
           <Image src={profile.image || '/assets/user.png'} />
           <Card.Content>
               <Card.Header>{profile.displayName}</Card.Header>
-              <Card.Description>Bio Goes Here</Card.Description>
+              <Card.Description>{profile.bio?.substring(0, 40) + '...' || ''}</Card.Description>
           </Card.Content>
           <Card.Content extra>
               <Icon name='user' />
