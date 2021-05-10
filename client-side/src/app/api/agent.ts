@@ -95,7 +95,9 @@ const Profiles = {
   },
   setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
   deletePhoto: (id: string) => requests.delete(`/photos/${id}`),
-  updateProfile: (profile: Partial<Profile>) => requests.put(`/profile`, profile)
+  updateProfile: (profile: Partial<Profile>) => requests.put(`/profile`, profile),
+  updateFollowing: (username: string) => requests.post(`/follow/${username}`, {}),
+  listFollowings: (username: string, type: string) => requests.get<Profile[]>(`/follow/${username}?type=${type}`)
   
 }
 
